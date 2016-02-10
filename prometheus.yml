@@ -1,0 +1,21 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  # scrape_timeout is set to the global default (10s).
+  external_labels:
+    monitor: prom-rancher
+
+rule_files:
+
+scrape_configs:
+- job_name: 'prometheus'
+  scrape_interval: 5s
+  scrape_timeout: 10s
+
+  target_groups:
+    - targets: ['localhost:9090']
+
+- job_name: 'rancher'
+  file_sd_configs:
+    - names: [ '/prom-rancher-sd-data/*.json' ]
+      refresh_interval: 30s
